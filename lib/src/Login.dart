@@ -44,7 +44,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   Future _loginHttp() async {
     try {
-      await DioUtils.post('loginRest/login', {'userCode': _userNameEditController.text, 'password': '123456', 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
+      await DioUtils.post('loginRest/login', {'userCode': _userNameEditController.text, 'password': this._pwdEditController.text, 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
     } on DioError catch(e) {
       print(e);
     }
@@ -124,15 +124,18 @@ class _LoginWidgetState extends State<LoginWidget> {
     return TextField(
       controller: _captchaEditController,
       focusNode: _captchaFocusNode,
-      obscureText: true,
       decoration: InputDecoration(
+        suffixStyle: TextStyle(),
         suffixIcon: GestureDetector(
           onTap: (){
             setState((){
               _setTempToken();
             });
           },
-          child: Image.network('${DioUtils.api}captchaRest/getValidateImg?tempToken=${this.tempToken}', height: 50,),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+            child: Image.network('${DioUtils.api}captchaRest/getValidateImg?tempToken=${this.tempToken}', height: 50,),
+          ),
         ),
         border: OutlineInputBorder(),
         labelText: 'Captcha',
