@@ -2,6 +2,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+Future<String> _getToken() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  return pref.get('token');
+}
+
 var dio = new Dio(new BaseOptions(
   baseUrl: "http://192.168.0.8:8081/",
 //  baseUrl: "http://localhost:60968/",
@@ -19,8 +24,10 @@ var dio = new Dio(new BaseOptions(
             dio.interceptors.requestLock.lock();
             await _getToken();
             options.headers["token"] = await _getToken();
-            if(options.method == 'post')
-              dio.options.contentType = ContentType.parse("application/x-www-form-urlencoded");
+            print(options.method);
+            if(options.method == 'POST'){
+              options.contentType = ContentType.parse("application/x-www-form-urlencoded");
+            }
             dio.interceptors.requestLock.unlock();
             return options; //continue
             // 如果你想完成请求并返回一些自定义数据，可以返回一个`Response`对象或返回`dio.resolve(data)`。
@@ -30,6 +37,7 @@ var dio = new Dio(new BaseOptions(
             // 这样请求将被中止并触发异常，上层catchError会被调用。
           },
           onResponse: (Response response) {
+            print(response);
             // 在返回响应数据之前做一些预处理
             return response; // continue
           },
@@ -44,9 +52,19 @@ var dio = new Dio(new BaseOptions(
   )
 ;
 
-Future<String> _getToken() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.get('token');
+class Proxy {
+  static setProxy(String target) {
+    dio.httpClientAdapter = new DefaultHttpClientAdapter();
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.findProxy = (uri) {
+        //proxy all request to localhost:8888
+        return "PROXY $target";
+      };
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    };
+  }
 }
 
 class DioUtils{
@@ -63,19 +81,4 @@ class DioUtils{
     return response.data;
   }
 
-}
-
-class Proxy {
-  static setProxy(String target) {
-    dio.httpClientAdapter = new DefaultHttpClientAdapter();
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.findProxy = (uri) {
-        //proxy all request to localhost:8888
-        return "PROXY $target";
-      };
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-    };
-  }
 }
