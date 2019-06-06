@@ -1,20 +1,14 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:io';
 import './http/dio.dart';
 import 'src/MainPage.dart';
 import 'src/Login.dart';
 import 'src/Home/SearchNavigatorWidget.dart';
 
-void _add() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  pref.setString('token', 'd0e5b4ca61e6badecbdffa0763fe48ba');
-}
 
 void main() {
-  _add();
+  DioUtils.setToken('d0e5b4ca61e6badecbdffa0763fe48ba');
   Proxy.setProxy('192.168.0.230:8480');
+//  Proxy.setProxy('192.168.0.125:8480');
   runApp(MyApp());
 }
 

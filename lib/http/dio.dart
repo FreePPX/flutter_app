@@ -24,7 +24,6 @@ var dio = new Dio(new BaseOptions(
             dio.interceptors.requestLock.lock();
             await _getToken();
             options.headers["token"] = await _getToken();
-            print(options.method);
             if(options.method == 'POST'){
               options.contentType = ContentType.parse("application/x-www-form-urlencoded");
             }
@@ -54,6 +53,7 @@ var dio = new Dio(new BaseOptions(
 
 class Proxy {
   static setProxy(String target) {
+    DioUtils.uri = 'http://$target/';
     dio.httpClientAdapter = new DefaultHttpClientAdapter();
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
@@ -69,7 +69,12 @@ class Proxy {
 
 class DioUtils{
 
-  static String api = 'http://192.168.0.230:8480/';
+  static String uri = 'http://192.168.0.230:8480/';
+
+  static void setToken(token) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('token', token);
+  }
 
   static Future get(String url, {Map<String, dynamic> params}) async {
     var response = await dio.get(url, queryParameters: params);

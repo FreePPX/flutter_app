@@ -134,7 +134,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-            child: Image.network('${DioUtils.api}captchaRest/getValidateImg?tempToken=${this.tempToken}', height: 50,),
+            child: Image.network('${DioUtils.uri}captchaRest/getValidateImg?tempToken=${this.tempToken}', height: 50,),
           ),
         ),
         border: OutlineInputBorder(),
