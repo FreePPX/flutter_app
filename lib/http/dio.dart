@@ -2,11 +2,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<String> _getToken() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.get('token');
-}
-
 var dio = new Dio(new BaseOptions(
   baseUrl: "http://192.168.0.8:8081/",
 //  baseUrl: "http://localhost:60968/",
@@ -22,8 +17,7 @@ var dio = new Dio(new BaseOptions(
           onRequest: (RequestOptions options) async{
             // 在请求被发送之前做一些事情
             dio.interceptors.requestLock.lock();
-            await _getToken();
-            options.headers["token"] = await _getToken();
+            options.headers["token"] = await DioUtils.getPre('token');
             if(options.method == 'POST'){
               options.contentType = ContentType.parse("application/x-www-form-urlencoded");
             }
@@ -52,7 +46,9 @@ var dio = new Dio(new BaseOptions(
 ;
 
 class Proxy {
+//  设置代理
   static setProxy(String target) {
+//    设置代理地址
     DioUtils.uri = 'http://$target/';
     dio.httpClientAdapter = new DefaultHttpClientAdapter();
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
@@ -68,19 +64,55 @@ class Proxy {
 }
 
 class DioUtils{
-
+//  代理地址
   static String uri = 'http://192.168.0.230:8480/';
 
-  static void setToken(token) async {
+//  存储数据
+  static Future<void> setPre(String type, String key, value) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('token', token);
+    switch(type) {
+      case 'string':
+        print('string');
+        pref.setString(key, value);
+        break;
+      case 'int':
+        pref.setInt(key, value);
+        break;
+      case 'double':
+        pref.setDouble(key, value);
+        break;
+      case 'bool':
+        pref.setBool(key, value);
+        break;
+    }
   }
 
+//  读取数据
+  static Future getPre(String key) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final _value = pref.get(key);
+    return _value;
+  }
+
+//  删除数据
+  static Future<void> removePre(String key) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove(key);
+  }
+
+//  清空数据
+  static Future<void> clearPre() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.clear();
+  }
+
+//  get请求
   static Future get(String url, {Map<String, dynamic> params}) async {
     var response = await dio.get(url, queryParameters: params);
     return response.data;
   }
 
+//  post请求
   static Future post(String url, Map<String, dynamic> params) async {
     var response = await dio.post(url, data: params);
     return response.data;

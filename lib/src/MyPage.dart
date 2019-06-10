@@ -7,6 +7,14 @@ class MyPageWidget extends StatefulWidget {
 }
 
 class _MyPageWidgetState extends State<MyPageWidget> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(

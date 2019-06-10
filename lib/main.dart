@@ -5,8 +5,11 @@ import 'src/Login.dart';
 import 'src/Home/SearchNavigatorWidget.dart';
 
 
-void main() {
-  DioUtils.setToken('d0e5b4ca61e6badecbdffa0763fe48ba');
+void main() async{
+//  var  token = await DioUtils.getPre('token');
+//  await DioUtils.clearPre();
+//  print(token);
+//  DioUtils.setPre('string', 'token', 'd0e5b4ca61e6badecbdffa0763fe48ba');
   Proxy.setProxy('192.168.0.230:8480');
 //  Proxy.setProxy('192.168.0.125:8480');
   runApp(MyApp());

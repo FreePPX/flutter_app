@@ -42,9 +42,13 @@ class _LoginWidgetState extends State<LoginWidget> {
     }
   }
 
-  Future _loginHttp() async {
+  Future _loginHttp(BuildContext context) async {
     try {
-      await DioUtils.post('loginRest/login', {'userCode': _userNameEditController.text, 'password': this._pwdEditController.text, 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
+//      var loginRes = await DioUtils.post('loginRest/login', {'userCode': _userNameEditController.text, 'password': this._pwdEditController.text, 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
+      var loginRes = await DioUtils.post('loginRest/login', {'userCode': '18080008003', 'password': '123456', 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
+      if(loginRes['result']) {
+        Navigator.pop(context);
+      }
     } on DioError catch(e) {
       print(e);
     }
@@ -79,7 +83,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       color: Color(0xFF35a2d1),
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                       onPressed: () {
-                        _loginHttp();
+                        _loginHttp(context);
                       },
                       child: const Text(
                         '登录',
