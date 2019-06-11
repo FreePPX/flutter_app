@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../http/dio.dart';
 
 class MyPageWidget extends StatefulWidget {
   MyPageWidget({Key key}): super(key: key);
@@ -12,7 +13,18 @@ class _MyPageWidgetState extends State<MyPageWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
+  }
+
+  @override
+  void didChangeDependencies() async{
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    final token = await DioUtils.getPre('token');
+    print(token);
+    if(token == null) {
+      Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/'));
+//      Navigator.pushNamed(context, '/login');
+    }
   }
 
   @override

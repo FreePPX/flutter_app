@@ -68,20 +68,19 @@ class DioUtils{
   static String uri = 'http://192.168.0.230:8480/';
 
 //  存储数据
-  static Future<void> setPre(String type, String key, value) async {
+  static Future<Null> setPre(String type, String key, value) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     switch(type) {
-      case 'string':
-        print('string');
+      case 'String':
         pref.setString(key, value);
         break;
-      case 'int':
+      case 'Int':
         pref.setInt(key, value);
         break;
-      case 'double':
+      case 'Double':
         pref.setDouble(key, value);
         break;
-      case 'bool':
+      case 'Bool':
         pref.setBool(key, value);
         break;
     }
@@ -95,13 +94,13 @@ class DioUtils{
   }
 
 //  删除数据
-  static Future<void> removePre(String key) async {
+  static Future<Null> removePre(String key) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.remove(key);
   }
 
 //  清空数据
-  static Future<void> clearPre() async {
+  static Future<Null> clearPre() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.clear();
   }

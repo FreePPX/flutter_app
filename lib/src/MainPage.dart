@@ -32,28 +32,52 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  Future<bool> _onWillPop() {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('提示'),
+        content: new Text('确定退出应用吗？'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('再看一会'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('退出'),
+          ),
+        ],
+      ),
+    ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: _currentIndex != 0 ? Text(appTitle[_currentIndex]) : SearchWidget(),
-          backgroundColor: Theme.of(context).accentColor,
-        ),
-        body: getBodyItem[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home, color: _getTabColor(0)), title: Text(appTitle[0], style: TextStyle(color: _getTabColor(0)))),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.business, color: _getTabColor(1)), title: Text(appTitle[1], style: TextStyle(color: _getTabColor(1)))),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.local_mall, color: _getTabColor(2)), title: Text(appTitle[2], style: TextStyle(color: _getTabColor(2)))),
-          ],
-          currentIndex: _currentIndex,
-          onTap: _clickBottermIterm,
-        )
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: _currentIndex != 0 ? Text(appTitle[_currentIndex]) : SearchWidget(),
+            backgroundColor: Theme.of(context).backgroundColor,
+          ),
+          body: getBodyItem[_currentIndex],
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home, color: _getTabColor(0)), title: Text(appTitle[0], style: TextStyle(color: _getTabColor(0)))),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.business, color: _getTabColor(1)), title: Text(appTitle[1], style: TextStyle(color: _getTabColor(1)))),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.local_mall, color: _getTabColor(2)), title: Text(appTitle[2], style: TextStyle(color: _getTabColor(2)))),
+            ],
+            currentIndex: _currentIndex,
+            onTap: _clickBottermIterm,
+          )
+      ),
     );
   }
 }
