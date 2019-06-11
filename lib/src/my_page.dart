@@ -10,20 +10,14 @@ class MyPageWidget extends StatefulWidget {
 class _MyPageWidgetState extends State<MyPageWidget> {
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() async{
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     final token = await DioUtils.getPre('token');
     print(token);
     if(token == null) {
-      Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/'));
-//      Navigator.pushNamed(context, '/login');
+      Navigator.pushNamed(context, '/login');
+//      Navigator.pop(context);
     }
   }
 

@@ -6,15 +6,19 @@ import '../http/dio.dart';
 
 class LoginWidget extends StatefulWidget {
 
-  final params;
+  final Map params;
 
   LoginWidget({Key key, this.params}):super(key: key);
 
   @override
-  _LoginWidgetState createState() => _LoginWidgetState();
+  _LoginWidgetState createState() => _LoginWidgetState(this.params);
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
+
+  final _params;
+
+  _LoginWidgetState(this._params);
 
   TextEditingController _userNameEditController = TextEditingController();
   TextEditingController _pwdEditController = TextEditingController();
