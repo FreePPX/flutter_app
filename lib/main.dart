@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import './http/dio.dart';
-import 'src/MainPage.dart';
-import 'src/Login.dart';
-import 'src/Home/SearchNavigatorWidget.dart';
+import 'src/main_page.dart';
+import 'src/login.dart';
+import 'src/Home/search_navigator_widget.dart';
 
 
 void main() async{
