@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:dio/dio.dart' show DioError;
-import '../http/dio.dart';
+import 'package:flutterapp/http/dio.dart';
+import 'package:flutterapp/components/tost.dart';
 
 
 class LoginWidget extends StatefulWidget {
@@ -16,7 +17,8 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
 
-  final _params;
+  var _params;
+  bool _visible = true;
 
   _LoginWidgetState(this._params);
 
@@ -34,6 +36,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     // TODO: implement initState
     super.initState();
     _setTempToken();
+//    _visible = true;
     _userNameEditController.addListener(() => setState(() => {}));
     _pwdEditController.addListener(() => setState(() => {}));
     _captchaEditController.addListener(() => setState(() => {}));
@@ -57,6 +60,8 @@ class _LoginWidgetState extends State<LoginWidget> {
       var loginRes = await DioUtils.post('loginRest/login', {'userCode': _userNameEditController.text, 'password': this._pwdEditController.text, 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
 //      var loginRes = await DioUtils.post('loginRest/login', {'userCode': '18080008003', 'password': '123456', 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
       if(loginRes['result']) {
+        await DioUtils.setPre('String', 'token', loginRes['obj']['token']);
+        Toast.toast(context, '登录成功');
         Navigator.pop(context);
       }
     } on DioError catch(e) {
@@ -108,6 +113,16 @@ class _LoginWidgetState extends State<LoginWidget> {
                       margin: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
                       child: this._buildPwdTextFieldWidget(),
                     ),
+                    _visible ? Dismissible(
+                        key: ValueKey('myString'),
+                        child: ListTile(title: Text('123456789'),),
+                        movementDuration: Duration(seconds:3),
+                        direction: DismissDirection.horizontal,
+                        background: Container(color: Colors.lightBlue, child: Icon(Icons.add, textDirection: TextDirection.rtl,)),
+                        secondaryBackground: Container(color: Colors.cyanAccent, child: Icon(Icons.cancel),),
+                        onDismissed: (direction) {
+                          _visible = false;
+                        }) : Container(),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
                       child: this._buildCaptchaTextFieldWidget(),

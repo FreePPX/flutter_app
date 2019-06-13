@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import './http/dio.dart';
-import 'src/main_page.dart';
-import 'src/login.dart';
-import 'src/Home/search_navigator_widget.dart';
+import 'package:flutterapp/http/dio.dart';
+import 'package:flutterapp/src/main_page.dart';
+import 'package:flutterapp/src/login.dart';
+import 'package:flutterapp/src/Home/search_navigator_widget.dart';
 
+var _token;
 
 void main() async{
-//  var  token = await DioUtils.getPre('token');
 //  await DioUtils.clearPre();
-//  print(token);
 //  DioUtils.setPre('String', 'token', 'd0e5b4ca61e6badecbdffa0763fe48ba');
+  _token = await DioUtils.getPre('token');
   Proxy.setProxy('192.168.0.230:8480');
 //  Proxy.setProxy('192.168.0.125:8480');
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -36,7 +41,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: true,
       title: '租街app',
-      initialRoute: '/login',
+      initialRoute: _token == null ? '/login' : '/',
       routes: <String, WidgetBuilder>{
         '/': (context) => MainPage(),
         '/login': (context, {params}) => LoginWidget(params: params),

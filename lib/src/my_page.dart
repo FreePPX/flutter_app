@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../http/dio.dart';
+import 'package:flutterapp/http/dio.dart';
 
 class MyPageWidget extends StatefulWidget {
   MyPageWidget({Key key}): super(key: key);
@@ -8,19 +8,6 @@ class MyPageWidget extends StatefulWidget {
 }
 
 class _MyPageWidgetState extends State<MyPageWidget> {
-
-  @override
-  void didChangeDependencies() async{
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    final token = await DioUtils.getPre('token');
-    print(token);
-    if(token == null) {
-      Navigator.pushNamed(context, '/login');
-//      Navigator.pop(context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -30,7 +17,20 @@ class _MyPageWidgetState extends State<MyPageWidget> {
       ),
       debugShowCheckedModeBanner: false,
       home: new Scaffold(
-        body: new Center(child:new Text("MyPage")),
+        body: new Center(
+            child: Column(
+              children: <Widget>[
+                Text("MyPage"),
+                RaisedButton(
+                  onPressed: (){
+                    DioUtils.removePre('token');
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: Text('退出登录'),
+                ),
+              ],
+            )
+        ),
       ),
     );
   }

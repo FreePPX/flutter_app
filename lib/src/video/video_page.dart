@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'list_layout.dart';
+import 'package:flutterapp/src/video/list_layout.dart';
 
 class VideoPage extends StatelessWidget {
   @override
