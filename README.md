@@ -1,6 +1,6 @@
 # flutterapp
 
-A new Flutter project.
+A Flutter-app template project.
 
 ## Getting Started
 
