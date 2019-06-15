@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/src/Home/home_page.dart';
-import 'package:flutterapp/src/Video/video_page.dart';
-import 'package:flutterapp/src/my_page.dart';
+import './Home/home_page.dart';
+import './Video/video_page.dart';
+import './my_page.dart';
+import '../http/dio.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);

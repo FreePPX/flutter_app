@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/http/dio.dart';
+import 'login.dart';
+import '../http/dio.dart';
+import '../router/routes.dart';
 
 class MyPageWidget extends StatefulWidget {
   MyPageWidget({Key key}): super(key: key);
@@ -10,29 +12,23 @@ class MyPageWidget extends StatefulWidget {
 class _MyPageWidgetState extends State<MyPageWidget> {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: new Scaffold(
-        body: new Center(
-            child: Column(
-              children: <Widget>[
-                Text("MyPage"),
-                RaisedButton(
-                  onPressed: (){
-                    DioUtils.removePre('token');
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  child: Text('退出登录'),
-                ),
-              ],
-            )
-        ),
+    return Scaffold(
+      body: new Center(
+          child: Column(
+            children: <Widget>[
+              Text("MyPage"),
+              RaisedButton(
+                onPressed: (){
+//                  DioUtils.removePre('token');
+                  RouterUtils.routeHandles(context, '/login');
+//                  RouterUtils.routeHandles(context, LoginWidget(params: {'name': 'yang', 'age': 24, 'sex': 'man'}));
+//                  Navigator.pushNamed(context, '/login', arguments: {'age': 12});
+                },
+                child: Text('退出登录'),
+              ),
+            ],
+          )
       ),
     );
   }
 }
-

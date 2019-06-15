@@ -7,20 +7,18 @@ import 'package:flutterapp/components/tost.dart';
 
 class LoginWidget extends StatefulWidget {
 
-  final Map params;
+  final params;
 
   LoginWidget({Key key, this.params}):super(key: key);
+//  LoginWidget({Key key}):super(key: key);
 
   @override
-  _LoginWidgetState createState() => _LoginWidgetState(this.params);
+  _LoginWidgetState createState() => _LoginWidgetState();
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
 
-  var _params;
   bool _visible = true;
-
-  _LoginWidgetState(this._params);
 
   TextEditingController _userNameEditController = TextEditingController();
   TextEditingController _pwdEditController = TextEditingController();
@@ -36,7 +34,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     // TODO: implement initState
     super.initState();
     _setTempToken();
-//    _visible = true;
     _userNameEditController.addListener(() => setState(() => {}));
     _pwdEditController.addListener(() => setState(() => {}));
     _captchaEditController.addListener(() => setState(() => {}));
@@ -70,7 +67,12 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
 
-  Future<bool> _onWillPop() {
+  Future<bool> _onWillPop() async{
+    final token = await DioUtils.getPre('token');
+    if(token != null) {
+      Navigator.pop(context);
+      return false;
+    }
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
@@ -96,6 +98,8 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+//    Map _people = ModalRoute.of(context).settings.arguments;
+//    print(_people['age'] is int);
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(

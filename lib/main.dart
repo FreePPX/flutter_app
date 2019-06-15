@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/http/dio.dart';
-import 'package:flutterapp/src/main_page.dart';
-import 'package:flutterapp/src/login.dart';
-import 'package:flutterapp/src/Home/search_navigator_widget.dart';
+import './router/routes.dart';
 
 var _token;
+Map<String, WidgetBuilder> route;
 
 void main() async{
 //  await DioUtils.clearPre();
 //  DioUtils.setPre('String', 'token', 'd0e5b4ca61e6badecbdffa0763fe48ba');
   _token = await DioUtils.getPre('token');
   Proxy.setProxy('192.168.0.230:8480');
+  aaa();
 //  Proxy.setProxy('192.168.0.125:8480');
   runApp(MyApp());
 }
@@ -23,7 +23,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       theme: new ThemeData(
         primarySwatch: MaterialColor(0xFFdf232f,
           const <int, Color>{
@@ -41,15 +41,14 @@ class _MyAppState extends State<MyApp> {
       ),
       debugShowCheckedModeBanner: true,
       title: '租街app',
-      initialRoute: _token == null ? '/login' : '/',
-      routes: <String, WidgetBuilder>{
-        '/': (context) => MainPage(),
-        '/login': (context, {params}) => LoginWidget(params: params),
-        '/search': (context) => SearchNavigatorWidget(),
-//        '/home': (context) => HomePage(),
-//        '/video': (context) => VideoPage(),
-//        '/my': (context) => MyPage(),
-      },
+      initialRoute: _token == null ? '/login': '/',
+      routes: route,
     );
   }
+}
+
+aaa(){
+  route = RouterUtils.routeF.map((String key, Widget value){
+    return new MapEntry(key, (context) => value);
+  });
 }
