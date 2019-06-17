@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:dio/dio.dart' show DioError;
-import 'package:flutterapp/http/dio.dart';
-import 'package:flutterapp/components/tost.dart';
+import '../http/dio.dart';
+import '../components/tost.dart';
 
 
 class LoginWidget extends StatefulWidget {
@@ -10,7 +10,6 @@ class LoginWidget extends StatefulWidget {
   final params;
 
   LoginWidget({Key key, this.params}):super(key: key);
-//  LoginWidget({Key key}):super(key: key);
 
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
@@ -53,16 +52,14 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   Future _loginHttp(BuildContext context) async {
-    try {
-      var loginRes = await DioUtils.post('loginRest/login', {'userCode': _userNameEditController.text, 'password': this._pwdEditController.text, 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
+    var loginRes = await DioUtils.post('loginRest/login', {'userCode': _userNameEditController.text, 'password': this._pwdEditController.text, 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
 //      var loginRes = await DioUtils.post('loginRest/login', {'userCode': '18080008003', 'password': '123456', 'kaptcha': _captchaEditController.text, 'tempToken': this.tempToken});
-      if(loginRes['result']) {
-        await DioUtils.setPre('String', 'token', loginRes['obj']['token']);
-        Toast.toast(context, '登录成功');
-        Navigator.pop(context);
-      }
-    } on DioError catch(e) {
-      print(e);
+    if(loginRes['result']) {
+      await DioUtils.setPre('String', 'token', loginRes['obj']['token']);
+      Toast.toast(context, '登录成功');
+      Navigator.pop(context);
+    } else {
+      Toast.toast(context, loginRes['msg']);
     }
   }
 

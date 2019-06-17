@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
 import '../http/dio.dart';
 import '../router/routes.dart';
 
@@ -19,10 +18,8 @@ class _MyPageWidgetState extends State<MyPageWidget> {
               Text("MyPage"),
               RaisedButton(
                 onPressed: (){
-//                  DioUtils.removePre('token');
+                  DioUtils.removePre('token');
                   RouterUtils.routeHandles(context, '/login');
-//                  RouterUtils.routeHandles(context, LoginWidget(params: {'name': 'yang', 'age': 24, 'sex': 'man'}));
-//                  Navigator.pushNamed(context, '/login', arguments: {'age': 12});
                 },
                 child: Text('退出登录'),
               ),

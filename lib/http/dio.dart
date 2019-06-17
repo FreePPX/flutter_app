@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../components/tost.dart';
 
 var dio = new Dio(new BaseOptions(
   baseUrl: "http://192.168.0.8:8081/",
@@ -107,14 +109,24 @@ class DioUtils{
 
 //  get请求
   static Future get(String url, {Map<String, dynamic> params}) async {
-    var response = await dio.get(url, queryParameters: params);
-    return response.data;
+    BuildContext context;
+    try {
+      var response = await dio.get(url, queryParameters: params);
+      return response.data;
+    } on DioError catch(e) {
+      Toast.toast(context, '数据出错啦！');
+      print(e);
+    }
   }
 
 //  post请求
   static Future post(String url, Map<String, dynamic> params) async {
-    var response = await dio.post(url, data: params);
-    return response.data;
+    try {
+      var response = await dio.post(url, data: params);
+      return response.data;
+    } on DioError catch(e) {
+      print(e);
+    }
   }
 
 }

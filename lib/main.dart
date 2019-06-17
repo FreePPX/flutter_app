@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/http/dio.dart';
+import './http/dio.dart';
 import './router/routes.dart';
 
 var _token;
-Map<String, WidgetBuilder> route;
 
 void main() async{
 //  await DioUtils.clearPre();
 //  DioUtils.setPre('String', 'token', 'd0e5b4ca61e6badecbdffa0763fe48ba');
   _token = await DioUtils.getPre('token');
   Proxy.setProxy('192.168.0.230:8480');
-  aaa();
-//  Proxy.setProxy('192.168.0.125:8480');
   runApp(MyApp());
 }
 
@@ -42,13 +39,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: true,
       title: '租街app',
       initialRoute: _token == null ? '/login': '/',
-      routes: route,
+      routes: RouterUtils.creatRoutes(),
     );
   }
-}
-
-aaa(){
-  route = RouterUtils.routeF.map((String key, Widget value){
-    return new MapEntry(key, (context) => value);
-  });
 }
