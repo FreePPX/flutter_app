@@ -5,6 +5,7 @@ import '../src/Home/search_navigator_widget.dart';
 import '../components/slide_transition.dart';
 
 class RouterUtils {
+
 //  路由path
   static Map<String, Widget> routePath([params]) {
     Map<String, Widget> pathMap = {
@@ -29,7 +30,6 @@ class RouterUtils {
         opaque: false,
         pageBuilder: (BuildContext context, _, __) {
           return (routePath(params)[path]);
-//          return pageWidget;
         },
         transitionsBuilder: (BuildContext context,
             Animation<double> animation,

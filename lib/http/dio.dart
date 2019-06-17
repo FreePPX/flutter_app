@@ -6,7 +6,6 @@ import '../components/tost.dart';
 
 var dio = new Dio(new BaseOptions(
   baseUrl: "http://192.168.0.8:8081/",
-//  baseUrl: "http://localhost:60968/",
   connectTimeout: 5000,
   receiveTimeout: 100000,
   contentType: ContentType.json,
@@ -66,6 +65,7 @@ class Proxy {
 }
 
 class DioUtils{
+
 //  代理地址
   static String uri = 'http://192.168.0.230:8480/';
 
@@ -89,7 +89,7 @@ class DioUtils{
   }
 
 //  读取数据
-  static Future getPre(String key) async {
+  static Future<dynamic> getPre(String key) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final _value = pref.get(key);
     return _value;
