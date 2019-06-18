@@ -31,7 +31,7 @@ var dio = new Dio(new BaseOptions(
             // 这样请求将被中止并触发异常，上层catchError会被调用。
           },
           onResponse: (Response response) {
-            print(response);
+//            print(response);
             // 在返回响应数据之前做一些预处理
             return response; // continue
           },
@@ -40,10 +40,10 @@ var dio = new Dio(new BaseOptions(
             return e; //continue
           }
       ))
-  ..interceptors.add(
-    //    控制台打印
-      LogInterceptor(request: false, requestHeader: false, responseHeader: false, responseBody: false),
-  )
+//  ..interceptors.add(
+//    //    控制台打印
+//      LogInterceptor(request: false, requestHeader: false, responseHeader: false, responseBody: false),
+//  )
 ;
 
 class Proxy {

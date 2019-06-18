@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../http/dio.dart';
-import '../router/routes.dart';
+import '../../http/dio.dart';
+import '../../router/routes.dart';
 
 class MyPageWidget extends StatefulWidget {
   MyPageWidget({Key key}): super(key: key);

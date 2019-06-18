@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../http/dio.dart';
+import '../../router/routes.dart';
 
 class SearchNavigatorWidget extends StatefulWidget {
   SearchNavigatorWidget({Key key}) : super(key: key);
@@ -9,6 +10,14 @@ class SearchNavigatorWidget extends StatefulWidget {
 }
 
 class _SearchNavigatorWidgetState extends State<SearchNavigatorWidget> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print('dispose');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,8 +64,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               borderRadius: BorderRadius.circular(3.0),
             ),
             child: TextField(
-              onChanged: (context) {
-                getHttp();
+              onChanged: (e) {
+                RouterUtils.routeHandles(context, '/detail-page');
+//                getHttp();
               },
               style: TextStyle(color: Color(0xFFdf222e)),
               autofocus: true,

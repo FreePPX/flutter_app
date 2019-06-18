@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../components/slide_transition.dart';
 import '../src/main_page.dart';
 import '../src/login.dart';
 import '../src/Home/search_navigator_widget.dart';
-import '../components/slide_transition.dart';
+import '../src/detail/detail_page.dart';
 
 class RouterUtils {
 
@@ -12,6 +13,7 @@ class RouterUtils {
       '/': MainPage(),
       '/login': LoginWidget(params: params ?? null),
       '/search': SearchNavigatorWidget(),
+      '/detail-page': DetailWidget(),
     };
     return pathMap;
   }
